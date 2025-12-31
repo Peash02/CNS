@@ -1,1 +1,245 @@
+1 Write a Python script that simulates a simple encryption and decryption process using a basic substitution cipher (e.g., Caesar cipher). Demonstrate how encryption enhances data security.
+
+# Function to encrypt the message using Caesar Cipher
+def encrypt(text, shift):
+    encrypted_text = ""
+    for char in text:
+        if char.isalpha():  # Check if the character is a letter
+            shift_amount = shift % 26
+            # Check if it's uppercase or lowercase
+            if char.isupper():
+                encrypted_text += chr((ord(char) + shift_amount - 65) % 26 + 65)
+            else:
+                encrypted_text += chr((ord(char) + shift_amount - 97) % 26 + 97)
+        else:
+            encrypted_text += char  # Non-alphabet characters remain unchanged
+    return encrypted_text
+# Function to decrypt the message
+def decrypt(text, shift):
+    return encrypt(text, -shift)  # Decrypt by shifting in the opposite direction
+# Example usage
+message = "Hello, World!"
+shift_value = 3
+# Encrypting the message
+encrypted_message = encrypt(message, shift_value)
+print(f"Original Message: {message}")
+print(f"Encrypted Message: {encrypted_message}")
+# Decrypting the message
+decrypted_message = decrypt(encrypted_message, shift_value)
+print(f"Decrypted Message: {decrypted_message}")
+
+ 
+
+2 Research and write a Python program that takes historical cy bersecurity incidents as input and categorizes them by their type (e.g., virus, phishing, DDoS). The program should print out a summary of these incidents.
+
+# List of historical cybersecurity incidents
+cybersecurity_incidents = [
+    "The Morris Worm disrupted computers in 1988, one of the first computer worms distributed via the internet.",
+    "In 2007, Estonia suffered a massive DDoS attack that crippled the nation's digital infrastructure.",
+    "In 2013, Target experienced a major data breach where millions of credit card details were stolen.",
+    "The WannaCry ransomware attack in 2017 affected thousands of computers globally, encrypting data and demanding ransom.",
+    "A phishing attack in 2016 compromised the email accounts of several high-profile figures, leading to the release of sensitive information.",
+    "The Mirai botnet in 2016 launched DDoS attacks using IoT devices, bringing down large parts of the internet."
+]
+
+# Dictionary to categorize incidents
+categories = {"virus": [], "phishing": [], "DDoS": [], "ransomware": [], "data breach": []}
+
+# Categorize incidents
+for incident in cybersecurity_incidents:
+    for category in categories:
+        if category in incident.lower():
+            categories[category].append(incident)
+
+# Print summary
+for category, incidents in categories.items():
+    print(f"\nCategory: {category.capitalize()}")
+    print("\n".join(incidents) if incidents else "No incidents in this category.")
+
+
+
+3 Program to Calculate Hash of a String using SHA-256
+
+import hashlib
+
+def get_sha256_hash(text):
+ sha_signature = hashlib.sha256(text.encode()).hexdigest()
+ return sha_signature
+
+# Test the function
+text = "Cybersecurity is important!"
+print(f"Text: {text}")
+print(f"SHA-256 Hash: {get_sha256_hash(text)}")
+
+4 Program to Simulate a Basic Brute-Force Attack on Passwords
+
+import itertools
+import string
+
+def brute_force_password(password, max_length=4):
+ characters = string.ascii_letters + string.digits
+ for length in range(1, max_length + 1):
+     for guess in itertools.product(characters, repeat=length):
+         guess = ''.join(guess)
+         if guess == password:
+             return f"Password '{password}' cracked in {length} tries!"
+
+password = "abc1"
+print(brute_force_password(password))
+
+
+5 Program to Check Password Strength
+import re
+
+def check_password_strength(password):
+ if len(password) < 8:
+     return "Weak: Password should be at least 8 characters."
+ if not re.search("[a-z]", password):
+     return "Weak: Password should have at least one lowercase letter."
+ if not re.search("[A-Z]", password):
+     return "Weak: Password should have at least one uppercase letter."
+ if not re.search("[0-9]", password):
+     return "Weak: Password should have at least one digit."
+ if not re.search("[!@#$%^&*(),.?\":{}|<>]", password):
+     return "Weak: Password should have at least one special character."
+ return "Strong password!"
+
+password = input("Enter your password: ")
+print(check_password_strength(password))
+
+
+
+6 Generating a Random Password
+
+import secrets
+import string
+
+def generate_password(length: int) -> str:
+    # Define the characters to use in the password
+    characters = string.ascii_letters + string.digits + string.punctuation
+    # Use secrets.choice to generate a secure random password
+    password = ''.join(secrets.choice(characters) for i in range(length))
+    return password
+
+# Example usage
+password_length = 12
+password = generate_password(password_length)
+print(f'Generated password: {password}')
+
+
+
+7 Checking for Commonly Used Passwords
+def is_password_common(password: str, common_passwords: list) -> bool:
+    return password in common_passwords
+
+# Example common passwords
+common_passwords = ['123456', 'password', '123456789', 'qwerty', 'abc123']
+
+# Example usage
+password = 'password'
+if is_password_common(password, common_passwords):
+    print('Password is too common!')
+else:
+    print('Password is not in the common list.')
+
+
+
+
+
+Lab-2
+8 Phishing Email Detection
+
+# Phishing email detection using keyword analysis
+def detect_phishing(email_content):
+    phishing_keywords = ['win', 'free', 'urgent', 'click', 'claim', 'password']
+    found_keywords = [word for word in phishing_keywords if word in email_content.lower()]
+    if found_keywords:
+        return f"Potential phishing detected! Keywords found: {found_keywords}"
+    else:
+        return "Email seems safe."
+
+email = "Click here to win a free iPhone by updating your password!"
+print(detect_phishing(email))
+
+9 Dumpster Diving Simulation
+
+# Dumpster diving to search for sensitive information in files
+def dumpster_diving(file_content):
+    sensitive_info = ['password', 'credit card', 'ssn', 'account number']
+    found_info = [info for info in sensitive_info if info in file_content.lower()]
+    if found_info:
+        return f"Sensitive information found: {found_info}"
+    else:
+        return "No sensitive information detected."
+
+file_data = "My password is 123456 and my account number is 987654321."
+print(dumpster_diving(file_data))
+
+10 Shoulder Surfing Detection via Webcam Simulation
+
+# Simulating shoulder surfing detection using webcam (simple message-based logic)
+def detect_shoulder_surfing(distance_from_screen):
+    if distance_from_screen < 1:  # Less than 1 meter could mean someone is too close
+        return "Shoulder surfing detected! Be cautious."
+    else:
+        return "No shoulder surfing detected."
+
+distance = 0.5  # In meters
+print(detect_shoulder_surfing(distance))
+
+
+11 Pharming Website Detection
+ 
+# Simple pharming detection based on suspicious URL patterns
+def detect_pharming(url):
+    known_legit_domains = ['https://www.bank.com', 'https://www.shop.com']
+    if url not in known_legit_domains:
+        return "Potential pharming attack detected! Suspicious URL."
+    else:
+        return "URL seems safe."
+
+url = "http://www.fake-bank.com"
+print(detect_pharming(url))
+
+12 Identity Fraud Detection with Email Verification
+
+# Simulating identity fraud detection by checking if email domains are legitimate
+def detect_identity_fraud(email):
+    legit_domains = ['gmail.com', 'yahoo.com', 'outlook.com']
+    domain = email.split('@')[-1]
+    if domain not in legit_domains:
+        return "Potential identity fraud detected! Suspicious email domain."
+    else:
+        return "Email seems legitimate."
+
+email = "user@fraudulent-domain.com"
+print(detect_identity_fraud(email))
+
+13 Simple Malware Detection using Hash Matching
+
+import hashlib
+
+# Simulate detecting malware by matching file hash with known malware hashes
+def detect_malware(file_data):
+    known_malware_hashes = ['098f6bcd4621d373cade4e832627b4f6']  # Hashes of known malware
+    file_hash = hashlib.md5(file_data.encode()).hexdigest()
+    if file_hash in known_malware_hashes:
+        return "Malware detected!"
+    else:
+        return "File seems safe."
+
+file_content = "malicious file content"
+print(detect_malware(file_content))
+
+14 Zombie Bot Detection in Network Traffic
+
+# Detecting suspicious behavior in network traffic indicating a zombie bot
+def detect_zombie_activity(network_traffic):
+    if "high frequency requests" in network_traffic and "to unknown IPs" in network_traffic:
+        return "Zombie bot detected! Suspicious activity in network."
+    else:
+        return "Network traffic seems normal."
+
+network_traffic = "high frequency requests to unknown IPs"
+print(detect_zombie_activity(network_traffic))
 
